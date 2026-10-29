@@ -8,16 +8,18 @@
 :root[data-theme=dark]{--bg:#12161c;--fg:#e6eaf0;--muted:#8b96a4;--card:#1b212a;--line:#2a323d;
 --chip:#232b36;--inset:#161c24;--bar:rgba(18,22,28,.86)}
 html,body{margin:0;padding:0}
-body{background:var(--bg);color:var(--fg);font-size:15px;line-height:1.5;
-font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC",sans-serif;
+body{background:var(--bg);color:var(--fg);font-size:14px;line-height:1.55;
+font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",
+"Helvetica Neue",Arial,"Microsoft JhengHei",sans-serif;overflow-x:hidden;
+-webkit-text-size-adjust:100%;overscroll-behavior-y:none;
 padding-bottom:calc(var(--navh) + env(safe-area-inset-bottom,0px))}
 header{position:sticky;top:0;z-index:30;background:var(--bar);
 backdrop-filter:saturate(1.6) blur(12px);-webkit-backdrop-filter:saturate(1.6) blur(12px);
 border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;
-padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px}
-h1{font-size:15px;margin:0;font-weight:700;flex:1 1 auto;min-width:0}
-h1 em{display:block;font-style:normal;font-size:11.5px;font-weight:500;
-color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums;
+padding:calc(9px + env(safe-area-inset-top,0px)) 14px 9px}
+h1{font-size:15px;margin:0;font-weight:700;letter-spacing:-.2px;flex:1 1 auto;min-width:0}
+h1 em{display:block;font-style:normal;font-size:11px;font-weight:500;
+color:var(--muted);margin-top:1px;font-variant-numeric:tabular-nums;
 white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* 320px 的小手機塞不下三段，先捨棄檔數（全池頁本來就看得到） */
 @media(max-width:359px){h1 em .hs{display:none}}
@@ -28,15 +30,15 @@ display:grid;place-items:center;cursor:pointer;font-family:inherit}
 .ibtn.spin{animation:sp .6s linear}
 @keyframes sp{to{transform:rotate(360deg)}}
 main{padding:12px 12px 20px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
-padding:13px 14px;margin-bottom:11px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+padding:13px 14px;margin-bottom:9px}
 h2{font-size:13px;margin:0 0 9px;color:var(--muted);font-weight:700;letter-spacing:.02em}
 .big{font-size:21px;font-weight:800;line-height:1.2}
 .sc{font-variant-numeric:tabular-nums}
 .pos{color:var(--good)}.neg{color:var(--bad)}.flat{color:var(--muted)}
 .bull{color:var(--good)}.bear{color:var(--bad)}.range{color:var(--accent2)}
 .kpis{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 12px}
 .kpi .t{font-size:11px;color:var(--muted)}
 .kpi .v{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.2;margin-top:2px}
 .kpi .s{font-size:11px;color:var(--muted);margin-top:2px}
@@ -55,14 +57,17 @@ background:var(--chip);color:var(--muted)}
 .tag.g{background:rgba(46,158,91,.14);color:var(--good);border-color:rgba(46,158,91,.34)}
 .tag.r{background:rgba(217,75,75,.14);color:var(--bad);border-color:rgba(217,75,75,.34)}
 .tag.w{background:rgba(224,138,30,.16);color:var(--warn);border-color:rgba(224,138,30,.4)}
-nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;
-background:var(--card);border-top:1px solid var(--line);
-padding-bottom:env(safe-area-inset-bottom,0px)}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;
+background:var(--bar);border-top:1px solid var(--line);
+backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);
+padding:5px 6px calc(env(safe-area-inset-bottom,0px) + 5px)}
 nav button{flex:1;border:0;background:none;color:var(--muted);font-family:inherit;
-padding:7px 0 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+padding:5px 2px 3px;cursor:pointer;display:grid;gap:1px;justify-items:center;
+border-radius:10px}
 nav button[aria-current=page]{color:var(--accent)}
-nav .ic{font-size:19px;line-height:1}
-nav .tx{font-size:11px;font-weight:600}
+nav .ic{font-size:17px;line-height:1.1}
+nav .tx{font-size:10.5px;font-weight:700;letter-spacing:.2px}
+nav button:active{background:var(--chip)}
 .ctrl{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .chip{font-size:12px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);
 background:var(--chip);color:var(--fg);font-family:inherit;cursor:pointer}
