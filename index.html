@@ -490,7 +490,7 @@ function renderCci(){
     var st=x.k==='g'?'<span class="pill long">金叉</span>'
          :(x.k==='d'?'<span class="pill short">死叉</span>'
          :'<span class="pill">待'+(x.want||'')+'</span>');
-    P.push('<div class="prow"><span class="c1">'+st+'</span><span class="c2">'
+    P.push('<div class="prow" data-ct="'+esc(x.code||x.t)+'"><span class="c1">'+st+'</span><span class="c2">'
       +'<span class="t1"><span class="sym">'+esc((x.nm||'')+(x.code||x.t))+'</span>'
       +(x.watch?'<span class="pill">★</span>':'')
       +(x.pine?'<span class="pill conf">✓三條件</span>':'')+'</span>'
@@ -506,6 +506,8 @@ function renderCci(){
   if(fc.cv!=='act')nb++; if(fc.q)nb++;
   var bt=document.getElementById('btnCF');
   bt.textContent=nb?('⚙ 篩選 ·'+nb):'⚙ 篩選';
+  Array.prototype.forEach.call(el.querySelectorAll('.prow[data-ct]'),function(e){
+    e.addEventListener('click',function(){openCci(e.dataset.ct);});});
 }
 function n1(v){return v==null?'—':Number(v).toFixed(1);}
 function n2(v){return v==null?'—':Number(v).toLocaleString('en-US',
@@ -544,6 +546,34 @@ document.getElementById('fReset').addEventListener('click',function(){
 /* 面板用 history 管理，手機的返回手勢才會關面板而不是離開頁面。
    兩個面板（篩選／個股解說）共用一個堆疊，才不會互相蓋掉歷史。 */
 var open_=null;
+/* CCI 列點開。只有一部分標的在觀察／全池／大盤有完整六面向資料，
+   先找最豐富的那一份，都沒有才退回只有 CCI 門檻的簡卡 —— 不能讓使用者點了沒反應。
+   識別一律用 code（CCI 列是 2412.TW，其餘三處都是 2412）。2026-11-09 補。 */
+function openCci(code){
+  var i, MR=(D.regime&&D.regime.rows)||[];
+  for(i=0;i<WD.length;i++){if(WD[i].code===code){openWatch(i);return;}}
+  for(i=0;i<MR.length;i++){if(MR[i].code===code||MR[i].tk===code){openMk(MR[i].tk);return;}}
+  for(i=0;i<SV.length;i++){if(SV[i].code===code){openRow(i);return;}}
+  openCciOnly(code);
+}
+function openCciOnly(code){
+  var x=CX[code]||CX[code+'.TW']; if(!x)return;
+  document.getElementById('wTtl').innerHTML='<span class="sym">'+esc(x.nm||'')+'</span>'
+    +' <span class="code">'+esc(x.code||code)+'</span>';
+  var P=['<div class="card"><div class="kv">'
+    +kvrow('收盤',n2(x.c))
+    +kvrow('月線（20MA）',n2(x.ma20))
+    +kvrow('距月線',(x.dev>0?'+':'')+n2(x.dev)+'%')
+    +(x.watch?kvrow('觀察名單','★ 是'):'')
+    +'</div></div>'];
+  P.push(cciCardHtml(code));
+  P.push('<div class="card"><p class="note">這一檔近 '+D.window
+    +' 日沒有六大策略訊號、也不在觀察名單，所以只有 CCI 門檻資料，沒有六面向檢核。</p></div>');
+  document.getElementById('wBody').innerHTML=P.join('');
+  document.getElementById('wBody').scrollTop=0;
+  openSheet('sheet-w');
+}
+
 function openSheet(id){
   if(open_)return;
   open_=id; document.getElementById(id).classList.add('open');
